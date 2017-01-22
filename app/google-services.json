@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "530436186955",
+    "firebase_url": "https://automatedrent.firebaseio.com",
+    "project_id": "automatedrent",
+    "storage_bucket": "automatedrent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530436186955:android:94b3517e0349e5d9",
+        "android_client_info": {
+          "package_name": "com.visual.android.automatedrental"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530436186955-cptv6pq9f4g7dkn3na6md05e0eqjv2jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEpMuATzjL72uSiJwdCKoK-WVdOs9qmhQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

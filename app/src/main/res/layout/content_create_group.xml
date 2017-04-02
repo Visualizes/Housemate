@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <com.visual.android.housemate.SearchEditText
+        android:inputType="text"
         android:id="@+id/search"
         android:hint="Name or @username"
         android:layout_width="match_parent"

@@ -1,8 +1,6 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -18,8 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.stripe.android.*;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
-
-import java.io.Serializable;
 
 
 /**

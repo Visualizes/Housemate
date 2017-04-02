@@ -1,4 +1,4 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,8 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by RamiK on 1/21/2017.
@@ -69,17 +67,19 @@ public class LoginActivityTemp extends Activity {
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mUsername.getText().toString().equals("") &&
-                        !mPassword.getText().toString().equals("")) {
-                    String username = mUsername.getText().toString();
-                    String password = mPassword.getText().toString();
+                /*if (!mUsername.getText().toString().equals("") &&
+                        !mPassword.getText().toString().equals("")) {*/
+                    //String username = mUsername.getText().toString();
+                    //String password = mPassword.getText().toString();
+
+                    String username = "ram@fff.com";
+                    String password = "member";
 
                     mAuth.signInWithEmailAndPassword(username, password)
                             .addOnCompleteListener(LoginActivityTemp.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d("TAG", "signInWithEmail:onComplete:" + task.isSuccessful());
-
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
                                     // signed in user can be handled in the listener.
@@ -87,13 +87,14 @@ public class LoginActivityTemp extends Activity {
                                         Log.w("TAG", "signInWithEmail:failed", task.getException());
                                     }
                                     else {
+                                        System.out.println("!!!!!!!!!!!");
                                         Intent i = new Intent(LoginActivityTemp.this, HomeActivity.class);
                                         startActivity(i);
                                         finish();
                                     }
                                 }
                             });
-                }
+                //}
             }
         });
     }

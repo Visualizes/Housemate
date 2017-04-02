@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_search"
             android:title="Search People" />
@@ -10,6 +10,7 @@
             android:id="@+id/nav_payment"
             android:title="Payment" />
         <item
+
             android:id="@+id/nav_incomplete"
             android:title="Incomplete" />
         <item
@@ -17,7 +18,7 @@
             android:title="Get Help" />
         <item
             android:id="@+id/nav_settings"
-            android:title="Settings" />
+            android:title="Sign Out" />
     </group>
 
 </menu>

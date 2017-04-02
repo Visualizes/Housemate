@@ -1,4 +1,4 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -96,7 +96,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         String email = userFromRegistration.getEmail();
         String userId = userFromRegistration.getUid();
 
-        Account user = new Account(firstName, lastName, username, email);
+        Account user = new Account(email, firstName, lastName, username);
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(userId).setValue(user);
     }

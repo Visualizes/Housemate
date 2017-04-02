@@ -1,9 +1,7 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +70,13 @@ public class HomeActivity extends AppCompatActivity
                     query2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            List<PaymentPlan> paymentPlans = new ArrayList<>();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                paymentPlans.add(snapshot.getValue(PaymentPlan.class));
-                                HomeAdapter homeAdapter = new HomeAdapter(HomeActivity.this, paymentPlans);
-                                listView.setAdapter(homeAdapter);
+                            List<String> names = new ArrayList<>();
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                names.add(snapshot.getKey());
                             }
+                            HomeAdapter homeAdapter = new HomeAdapter(HomeActivity.this, names);
+                            listView.setAdapter(homeAdapter);
 
                         }
 
@@ -98,8 +98,6 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -108,7 +106,11 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.add){
+            List<PaymentPlan> paymentPlans = new ArrayList<>();
             Intent i = new Intent(HomeActivity.this, CreateGroupActivity.class);
+            Bundle args = new Bundle();
+            args.putSerializable("PAYMENTPLANS",(Serializable)paymentPlans);
+            i.putExtra("BUNDLE",args);
             startActivity(i);
         }
 

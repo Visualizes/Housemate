@@ -1,6 +1,5 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,11 +14,12 @@ import java.util.List;
 /**
  * Created by RamiK on 1/21/2017.
  */
-public class HomeAdapter extends ArrayAdapter<PaymentPlan> {
+public class HomeAdapter extends ArrayAdapter<String> {
 
-    private List<PaymentPlan> items;
+    private List<String> items;
 
-    public HomeAdapter(Context context, List<PaymentPlan> items) {
+
+    public HomeAdapter(Context context, List<String> items) {
         super(context, 0, items);
         this.items = items;
     }
@@ -34,14 +34,14 @@ public class HomeAdapter extends ArrayAdapter<PaymentPlan> {
         TextView mTitle = (TextView)convertView.findViewById(R.id.title);
         TextView mParticipants = (TextView) convertView.findViewById(R.id.participants);
 
-        mTitle.setText(items.get(position).getName());
-        mParticipants.setText(items.get(position).getParticipants().size() + " participants");
+        mTitle.setText(items.get(position));
+        mParticipants.setText(items.size() + " participants");
 
         mObject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), PlanDetailActivity.class);
-                i.putExtra("PaymentPlan", items.get(position));
+                i.putExtra("NAME", items.get(position));
                 getContext().startActivity(i);
             }
         });

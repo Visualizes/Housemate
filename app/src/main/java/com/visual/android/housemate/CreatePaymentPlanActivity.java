@@ -1,8 +1,7 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,12 +20,19 @@ import java.util.List;
 public class CreatePaymentPlanActivity extends AppCompatActivity {
 
     private List<PaymentItem> paymentItems;
+    private List<PaymentPlan> paymentPlans;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_payment_plan);
 
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        Bundle extras = intent.getExtras();
+        paymentPlans = (ArrayList<PaymentPlan>) args.getSerializable("PAYMENTPLANS");
+        account = (Account)extras.get("ACCOUNT");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,6 +55,7 @@ public class CreatePaymentPlanActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,9 +70,12 @@ public class CreatePaymentPlanActivity extends AppCompatActivity {
         }
 
         if (menuItem.getItemId() == R.id.checkmark){
-            Intent i = new Intent(this, CreateGroupActivity.class);
+
+            paymentPlans.add(new PaymentPlan(account, paymentItems));
+
+            Intent i = new Intent(this, FinishPlanActivity.class);
             Bundle args = new Bundle();
-            args.putSerializable("ARRAYLIST",(Serializable)paymentItems);
+            args.putSerializable("PAYMENTPLANS",(Serializable)paymentPlans);
             i.putExtra("BUNDLE",args);
             startActivity(i);
         }

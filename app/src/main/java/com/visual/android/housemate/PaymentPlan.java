@@ -1,4 +1,4 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,31 +10,23 @@ public class PaymentPlan implements Serializable{
 
     String name;
     List<PaymentItem> paymentItems;
-    List<Account> participants;
+    Account user;
 
     public PaymentPlan(){
 
     }
 
-    public PaymentPlan(List<PaymentItem> paymentItems, List<Account> participants){
-        this.participants = participants;
+    public PaymentPlan(Account user, List<PaymentItem> paymentItems){
+        this.user = user;
         this.paymentItems = paymentItems;
     }
 
-    public List<Account> getParticipants() {
-        return participants;
+    public Account getUser() {
+        return user;
     }
 
     public List<PaymentItem> getPaymentItems() {
         return paymentItems;
-    }
-
-    public void setParticipants(List<Account> participants) {
-        this.participants = participants;
-    }
-
-    public void setPaymentItems(List<PaymentItem> paymentItems) {
-        this.paymentItems = paymentItems;
     }
 
     public String getName() {

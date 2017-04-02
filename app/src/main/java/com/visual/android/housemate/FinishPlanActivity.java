@@ -1,12 +1,9 @@
-package com.visual.android.automatedrental;
+package com.visual.android.housemate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by RamiK on 1/21/2017.
@@ -32,8 +29,9 @@ public class FinishPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_plan);
 
-        Bundle bundle = getIntent().getExtras();
-        final PaymentPlan paymentPlan = (PaymentPlan)bundle.get("PaymentPlan");
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("BUNDLE");
+        final List<PaymentPlan> paymentPlans = (ArrayList<PaymentPlan>) args.getSerializable("PAYMENTPLANS");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,13 +40,18 @@ public class FinishPlanActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        List<Account> participants = new ArrayList<>();
+        for (PaymentPlan plan : paymentPlans){
+            participants.add(plan.getUser());
+        }
+
         ListView listView = (ListView)findViewById(R.id.listview);
-        FinishAdapter finishAdapter = new FinishAdapter(this, paymentPlan.getParticipants());
+        FinishAdapter finishAdapter = new FinishAdapter(this, participants);
         listView.setAdapter(finishAdapter);
 
         final EditText mName = (EditText)findViewById(R.id.name);
         Button mFinish = (Button)findViewById(R.id.finish);
-        Button mCancel = (Button)findViewById(R.id.cancel);
+        Button mAdd = (Button)findViewById(R.id.addAnother);
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mFinish.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +60,22 @@ public class FinishPlanActivity extends AppCompatActivity {
                 final String name = mName.getText().toString();
                 if (!name.equals("")) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    paymentPlan.setName(name);
-                    mDatabase.child("users").child(user.getUid()).child("paymentPlans").child(name).setValue(paymentPlan);
+                    mDatabase.child("users").child(user.getUid()).child("paymentPlans").child(name).setValue(paymentPlans);
                     Intent i = new Intent(FinishPlanActivity.this, HomeActivity.class);
                     startActivity(i);
                     finish();
                 }
+            }
+        });
+
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(FinishPlanActivity.this, CreateGroupActivity.class);
+                Bundle args = new Bundle();
+                args.putSerializable("PAYMENTPLANS",(Serializable)paymentPlans);
+                i.putExtra("BUNDLE",args);
+                startActivity(i);
             }
         });
 

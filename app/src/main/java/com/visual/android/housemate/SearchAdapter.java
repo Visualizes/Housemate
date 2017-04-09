@@ -1,14 +1,10 @@
 package com.visual.android.housemate;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -64,18 +60,13 @@ public class SearchAdapter extends ArrayAdapter<Account> {
             public void onClick(View view) {
                 if (!selectedAccounts.contains(items.get(position))){
                     selectedAccounts.add(items.get(position));
-                    System.out.println("size: " + selectedAccounts.size());
-                    String searchText = singleton.mSearch.getText().toString();
-                    String addition = "<font color='purple'>" +items.get(position).getFirstName() + " " + items.get(position).getLastName() + ", " + "</font>";
-                    //singleton.mSearch.setText(Html.fromHtml(searchText + addition));
-                    singleton.mSearch.updateSelectedAccounts(selectedAccounts);
-                    singleton.mSearch.updateObjects();
                 } else {
-                    System.out.println("REMOVED");
                     selectedAccounts.remove(items.get(position));
-                    singleton.mSearch.updateSelectedAccounts(selectedAccounts);
-                    singleton.mSearch.updateObjects();
                 }
+
+
+                singleton.mSearch.updateSelectedAccounts(selectedAccounts);
+                singleton.mSearch.updateObjectsAndUpdateText();
 
                 /*
                 Intent i = new Intent(getContext(), CreatePaymentPlanActivity.class);

@@ -2,6 +2,7 @@ package com.visual.android.housemate;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.widget.ListView;
 
@@ -20,7 +21,7 @@ public class SearchEngine implements TextWatcher {
     private List<PaymentPlan> paymentPlans;
     private SearchEditText mSearch;
     private boolean moveLetter = false;
-    private CharSequence updatedText;
+    private String updatedText;
 
     public SearchEngine(List<Account> users, ListView listView, Context context, List<PaymentPlan> paymentPlans, SearchEditText mSearch){
         this.users = users;
@@ -40,52 +41,31 @@ public class SearchEngine implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         updatedUsers = new ArrayList<>();
-        List<Integer> availableCursorSpots = mSearch.getAvailableCursorSpots();
 
-        System.out.println(start);
-
-        for (int i = 0; i < availableCursorSpots.size() - 1; i++){
-            if (start == availableCursorSpots.get(i)){
+        for (int i = 0; i < mSearch.getAvailableCursorSpots().size(); i++){
+            if (i > 0 && count == 0 && start + 1 == mSearch.getAvailableCursorSpots().get(i) && mSearch.getAvailableCursorSpots().size() > 1){
+                if (mSearch.getSelectionStart() == mSearch.getSelectionEnd() && mSearch.getSelectionEnd() + 1 == mSearch.getAvailableCursorSpots().get(i)) {
+                    mSearch.getAccounts().remove(i-1);
+                    mSearch.updateObjectsAndUpdateText();
+                    mSearch.setSelection(mSearch.getAvailableCursorSpots().get(i-1), mSearch.getAvailableCursorSpots().get(i-1));
+                    break;
+                }
+            }
+            if (count == 1 && start == mSearch.getAvailableCursorSpots().get(i) && i != mSearch.getAvailableCursorSpots().size() - 1){
                 String text = s.toString();
                 s = text.substring(0, start) + text.substring(start + 1) + text.substring(start, start + 1);
-                System.out.println("text: " + text);
-                System.out.println("1: " + text.substring(0, start));
-                System.out.println("2: " + text.substring(start + 1));
-                System.out.println("3: " + text.substring(start, start + 1));
-                System.out.println("updated text: " + s);
-                updatedText = s;
+                updatedText = text.substring(start, start + 1);
                 moveLetter = true;
-                mSearch.setSelection(s.length(), s.length());
                 break;
             }
         }
 
-        if (availableCursorSpots.size() > 0) {
-            s = s.toString().substring(availableCursorSpots.get(availableCursorSpots.size() - 1));
+        if (mSearch.getAvailableCursorSpots().size() > 0) {
+            s = s.toString().substring(mSearch.getAvailableCursorSpots().get(mSearch.getAvailableCursorSpots().size() - 1));
         }
-        /*
-        SpannableStringBuilder spannableString = (SpannableStringBuilder) s;
-        String x = Html.toHtml(spannableString);
-        System.out.println(x);
-        String index1 = "<span style=\"color:#FF0000;\">";
-        String index2 = "</span>";
-        if (x.contains(index1)) {
-            String result1 = x.substring(0, x.indexOf(index1));
-            String result2 = x.substring(x.indexOf(index2)+index2.length());
-            String result = result1 + result2;
-            System.out.println(result);
-            String ad = "<p dir=\"ltr\"></p>";
-            /*if (!result.trim().equals(ad)){
-                System.out.println("xxx");
-                s = result;
-                System.out.println(s);
-            } else {
-                s = "";
-            }
-        }
-*/
+
         for (int i = 0; i < users.size(); i++){
-            if (users.get(i).getUsername().length() > s.length() && s.length() > 0){
+            if (users.get(i).getUsername().length() >= s.length() && s.length() > 0){
                 if (users.get(i).getUsername().toLowerCase().substring(0, s.length()).equals(String.valueOf(s).toLowerCase())) {
                     updatedUsers.add(users.get(i));
                 }
@@ -105,11 +85,8 @@ public class SearchEngine implements TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
         if (moveLetter) {
-            mSearch.removeTextChangedListener(this);
-            System.out.println(updatedText);
-            s.replace(0, s.length(), updatedText);
-            mSearch.addTextChangedListener(this);
             moveLetter = false;
+            mSearch.addToText(updatedText);
         }
     }
 

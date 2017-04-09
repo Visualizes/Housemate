@@ -1,12 +1,21 @@
 package com.visual.android.housemate;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +70,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                 mListSearch.setAdapter(searchAdapter);
                 mSearch.addTextChangedListener(searchEngine);
+
             }
 
             @Override

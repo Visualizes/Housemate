@@ -9,6 +9,7 @@
     android:layout_height="match_parent">
 
     <com.visual.android.housemate.SearchEditText
+        android:textSize="@dimen/create_group_edittext"
         android:inputType="text"
         android:id="@+id/search"
         android:hint="Name or @username"

@@ -9,4 +9,5 @@
 
 
     <dimen name="login_corner">4dp</dimen>
+    <dimen name="create_group_edittext">18dp</dimen>
 </resources>
